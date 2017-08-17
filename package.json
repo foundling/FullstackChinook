@@ -1,0 +1,20 @@
+{
+  "name": "chinook_fullstack",
+  "version": "1.0.0",
+  "description": "# stack",
+  "main": "api.js",
+  "dependencies": {
+    "bookshelf": "^0.10.4",
+    "express": "^4.15.4",
+    "knex": "^0.13.0",
+    "sqlite3": "^3.1.9"
+  },
+  "devDependencies": {
+    "tape": "^4.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
