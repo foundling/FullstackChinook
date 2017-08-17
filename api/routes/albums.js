@@ -15,11 +15,10 @@ albumsRouter.get('/', function(req, res) {
 
 });
 
-albumsRouter.get('/:name', function(req, res) {
+albumsRouter.get('/:title', function(req, res) {
 
-    const albums = client('albums').where({
-        Title: req.params.name
-    });
+    const albumTitle = req.params.title;
+    const albums = client('albums').where('Title','like',`%${ albumTitle }%`);
 
     albums.then(data => {
         res.json({ data });

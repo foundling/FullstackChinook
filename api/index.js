@@ -11,6 +11,7 @@ app.get('/', function(req, res) {
 }); 
 
 app.use('/albums', routes.albums);
+app.use('/artists', routes.artists);
 
 app.listen(PORT, () => {
     console.log(`Up and running on port ${ PORT }.`); 
