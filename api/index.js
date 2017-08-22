@@ -5,16 +5,14 @@ const PORT = process.env.PORT || 3000;
 const client = require(path.join(__dirname,'..','db','client'));
 const routes = require(path.join(__dirname,'routes'));
 
-app.get('/', function(req, res) {
-    // serve the spa
-    res.send('Hi!');
-}); 
-
+app.use('/api', express.static(path.join(__dirname,'..','public','documentation','api')));
+app.use(express.static(path.join(__dirname,'..','public','build')));
 app.use('/albums', routes.albums);
 app.use('/artists', routes.artists);
+app.use('/playlists', routes.playlists);
 
-app.listen(PORT, () => {
-    console.log(`Up and running on port ${ PORT }.`); 
-}); 
-
-
+module.exports = {
+    run:  function() {
+        app.listen(PORT, () => { console.log(`Up and running on port ${ PORT }.`); }); 
+    }
+}

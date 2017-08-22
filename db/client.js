@@ -3,6 +3,7 @@ const path = require('path');
 
 if (!process.env.DATABASE) {
     console.log('There is no database value in the node environment. Did you source your env.txt file?'); 
+    process.exit(1);
 }
 
 const client = knex({
