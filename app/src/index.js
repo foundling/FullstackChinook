@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import App from './components/App';
 
-const categories = ['Artist','Album','Song'];
-ReactDOM.render(<App categories={categories}/>, document.getElementById('root'));
+const data = {
+    categories: ['Artists','Albums','Playlists']
+}
+ReactDOM.render(<App categories={data.categories}/>, document.getElementById('root'));
