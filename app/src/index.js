@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+import Layout from './components/Layout';
 
-const data = {
-    categories: ['Artists','Albums','Playlists']
-}
-ReactDOM.render(<App categories={data.categories}/>, document.getElementById('root'));
+ReactDOM.render(<Layout />, document.getElementById('root'));
