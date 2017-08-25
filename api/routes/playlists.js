@@ -6,6 +6,7 @@ const JSONStream = require('JSONStream');
 
 const playlistSelectCriteria = [ 
     'playlists.Name as playlistName',
+    'tracks.TrackId as trackId',
     'tracks.Name as trackName',
     'tracks.Composer as composer',
     'tracks.Milliseconds as durationMS',

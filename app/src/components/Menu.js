@@ -6,7 +6,7 @@ class Menu extends React.Component {
     render() {
         return (
             <ul>
-                { this.props.categories.map(category => <ListItem changePage={this.props.changePage} item={category}/>) }
+                { this.props.categories.map(category => <ListItem key={category} changePage={this.props.changePage} item={category}/>) }
             </ul>
         );
     }

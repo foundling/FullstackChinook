@@ -10,11 +10,13 @@ class ListItem extends React.Component {
     updateTitle() {
         this.props.changePage(this.props.item);
     }
+
     render() {
         return (
             <li onClick={this.updateTitle}>{this.props.item}</li>
         );
     }
+
 };
 
 
