@@ -9,6 +9,15 @@ const cors = require('cors');
 app.use(cors());
 app.use('/api', express.static(path.join(__dirname,'..','public','documentation','api')));
 app.use(express.static(path.join(__dirname,'..','public','build')));
+app.use(function(req, res, next) {
+    res.set('Content-Type', 'application/json; charset=utf-8'); 
+    next();
+});
+app.use(function(req, res, next) {
+    console.log(req.url);
+    next();
+});
+
 app.use('/albums', routes.albums);
 app.use('/artists', routes.artists);
 app.use('/playlists', routes.playlists);

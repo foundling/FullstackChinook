@@ -6,14 +6,18 @@ import axios from 'axios';
 
 class Layout extends React.Component {
 
-    constructor(props) {
+    constructor() {
 
-        super(props);
+        super();
 
         this.state = {
             title: "Artists",
             categories: ['Artists','Albums','Playlists'],
-            searchResults: []
+            searchResults: {
+                Artists: [], 
+                Albums: [], 
+                Playlists: []
+            } 
         };
         this.updateResults = this.updateResults.bind(this);
         this.search = this.search.bind(this);
@@ -24,11 +28,12 @@ class Layout extends React.Component {
         const resource = this.state.title.toLowerCase();
         axios
             .get(`http://localhost:3000/${resource}?q=${query}`)
-            .then(console.log);
+            .then(this.updateResults);
     }
 
     updateResults({ data }) { 
-        this.setState({ searchResults: data });
+        const update = Object.assign({},this.state.searchResults, {[this.state.title]: data});
+        this.setState({ searchResults: update });
     }
 
     changePage(title) {
@@ -44,7 +49,9 @@ class Layout extends React.Component {
                     title={this.state.title}
                     categories={this.state.categories} 
                     changePage={this.changePage.bind(this)} />
-                <SearchResults resultType={this.state.title} results={this.state.searchResults} />
+                <SearchResults 
+                    resultType={this.state.title.slice(0,-1)} 
+                    results={this.state.searchResults[this.state.title]} />
             </div>
         );
     }

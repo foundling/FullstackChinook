@@ -10,7 +10,6 @@ class InputFilter extends React.Component {
 
     getInput(e) {
         const { value } = this.query; 
-        console.log(value);
         this.props.search(value);
     }
 

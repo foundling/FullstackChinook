@@ -2,29 +2,26 @@ const express = require('express');
 const path = require('path');
 const client = require(path.join(__dirname, '..','..','db','client'));
 const albumsRouter = express.Router();
+const JSONStream = require('JSONStream');
 
 albumsRouter.get('/', function(req, res) {
 
-    const albums = client('albums').select('Title'); 
+    const albums = client('albums')
+        .select('Title') 
+        .stream();
 
-    albums.then(data => {
-        res.json({ data });
-    }, err => {
-        res.json({error: err.code});
-    });
+    albums.pipe(JSONStream.stringify()).pipe(res);
 
 });
 
 albumsRouter.get('/:title', function(req, res) {
 
     const albumTitle = req.params.title;
-    const albums = client('albums').where('Title','like',`%${ albumTitle }%`);
+    const albums = client('albums')
+        .where('Title','like',`%${ albumTitle }%`)
+        .stream();
 
-    albums.then(data => {
-        res.json({ data });
-    }, err => {
-        res.json({error: err.code});
-    });
+    albums.pipe(JSONStream.stringify()).pipe(res);
 
 });
 

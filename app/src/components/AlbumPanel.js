@@ -6,7 +6,7 @@ class AlbumPanel extends React.Component {
         const { result } = this.props;
         return (
             <ul>
-                <li>{result.Name}</li>
+                <li>{result.Title}</li>
             </ul>
         );
     }

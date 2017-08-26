@@ -2,29 +2,26 @@ const express = require('express');
 const path = require('path');
 const client = require(path.join(__dirname, '..','..','db','client'));
 const artistsRouter = express.Router();
+const JSONStream = require('JSONStream');
 
 artistsRouter.get('/', function(req, res) {
 
-    const artists = client('artists').select('Name'); 
+    const artists = client('artists')
+        .select('Name')
+        .stream(); 
 
-    artists.then(data => {
-        res.json({ data });
-    }, err => {
-        res.json({error: err.code});
-    });
+    artists.pipe(JSONStream.stringify()).pipe(res);
 
 });
 
 artistsRouter.get('/:name', function(req, res) {
 
     const artistName = req.params.name;
-    const artists = client('artists').where('Name','like',`%${ artistName }%`);
+    const artists = client('artists')
+                        .where('Name','like',`%${ artistName }%`)
+                        .stream();
 
-    artists.then(data => {
-        res.json({ data });
-    }, err => {
-        res.json({error: err.code});
-    });
+    artists.pipe(JSONStream.stringify()).pipe(res);
 
 });
 
