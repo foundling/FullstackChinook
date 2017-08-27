@@ -10,7 +10,7 @@ class SearchResults extends React.Component {
         return (
             <div className="SearchResults">
                <ul>
-                    {results.map((result, index) => <SearchResult result={result} resultType={resultType} key={result.TrackId} />)}
+                    {results.map((result, index) => <SearchResult result={result} resultType={resultType} key={result.id} />)}
                 </ul>
             </div>
         )

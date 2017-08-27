@@ -1,10 +1,14 @@
-import React from 'react';
-import Menu from './Menu';
-import InputFilter from './InputFilter';
-import SearchResults from './SearchResults'; 
 import axios from 'axios';
+import React from 'react';
 
-class Layout extends React.Component {
+import InputFilter from './InputFilter';
+import Menu from './Menu';
+import Header from './Header';
+import SearchResults from './SearchResults'; 
+
+const baseURL = 'http://localhost:3000';
+
+class App extends React.Component {
 
     constructor() {
 
@@ -14,20 +18,40 @@ class Layout extends React.Component {
             title: "Artists",
             categories: ['Artists','Albums','Playlists'],
             searchResults: {
-                Artists: [], 
-                Albums: [], 
+                Artists: [],
+                Albums: [],
                 Playlists: []
-            } 
+            }
         };
         this.updateResults = this.updateResults.bind(this);
         this.search = this.search.bind(this);
 
     }
 
-    search(query) {
+    componentDidMount() {
+
+        const resources = ['artists','albums','playlists'];
+        const requests = resources.map(category => axios.get(`${baseURL}/${category}`));
+
+        Promise.all(requests).then(([artists, albums, playlists]) => {
+
+            const update = {
+                searchResults: {
+                    Artists: artists.data,
+                    Albums: albums.data,
+                    Playlists: playlists.data
+                }
+            };
+            this.setState(update);
+
+        });
+
+    }
+
+    search(searchTerm) {
         const resource = this.state.title.toLowerCase();
         axios
-            .get(`http://localhost:3000/${resource}?q=${query}`)
+            .get(`${baseURL}/${resource}?search=${searchTerm}`)
             .then(this.updateResults);
     }
 
@@ -43,6 +67,7 @@ class Layout extends React.Component {
     render() {
         return (
             <div>
+                <Header title="Chinook Database Demo Application" />
                 <InputFilter search={this.search} />
                 <h1>{this.state.title}</h1>
                 <Menu 
@@ -58,4 +83,4 @@ class Layout extends React.Component {
 
 }
 
-export default Layout;
+export default App;

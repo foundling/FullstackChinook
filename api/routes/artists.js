@@ -6,22 +6,28 @@ const JSONStream = require('JSONStream');
 
 artistsRouter.get('/', function(req, res) {
 
+    const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
     const artists = client('artists')
-        .select('Name')
-        .stream(); 
-
-    artists.pipe(JSONStream.stringify()).pipe(res);
+        .select('Name','ArtistId as id')
+        .where('Name','like', searchTerm)
+        .orderBy('Name','asc')
+        .distinct('Name')
+        .stream() 
+        .pipe(JSONStream.stringify())
+        .pipe(res);
 
 });
 
 artistsRouter.get('/:name', function(req, res) {
 
     const artistName = req.params.name;
+    const filterPredicate = artistName ? `%${artistName}%` : '%'; 
     const artists = client('artists')
-                        .where('Name','like',`%${ artistName }%`)
-                        .stream();
-
-    artists.pipe(JSONStream.stringify()).pipe(res);
+        .select('Name','ArtistId as id')
+        .where('Name','like',filterPredicate)
+        .stream()
+        .pipe(JSONStream.stringify())
+        .pipe(res);
 
 });
 

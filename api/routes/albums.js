@@ -6,11 +6,15 @@ const JSONStream = require('JSONStream');
 
 albumsRouter.get('/', function(req, res) {
 
+    const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
     const albums = client('albums')
-        .select('Title') 
-        .stream();
-
-    albums.pipe(JSONStream.stringify()).pipe(res);
+        .select('Title','AlbumId as id') 
+        .where('Title','like', searchTerm)
+        .orderBy('Title','asc')
+        .distinct('Title')
+        .stream()
+        .pipe(JSONStream.stringify())
+        .pipe(res);
 
 });
 
@@ -18,10 +22,11 @@ albumsRouter.get('/:title', function(req, res) {
 
     const albumTitle = req.params.title;
     const albums = client('albums')
+        .select('Title','AlbumTitle as id')
         .where('Title','like',`%${ albumTitle }%`)
-        .stream();
-
-    albums.pipe(JSONStream.stringify()).pipe(res);
+        .stream()
+        .pipe(JSONStream.stringify())
+        .pipe(res);
 
 });
 

@@ -6,8 +6,7 @@ class PlaylistPanel extends React.Component {
         const { result } = this.props;
         return (
             <ul>
-                <li>name: {result.playlistName}</li>
-                <li>trackName: {result.trackName}</li>
+                <li>{result.Name}</li>
             </ul>
         );
     }

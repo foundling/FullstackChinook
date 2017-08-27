@@ -8,6 +8,7 @@ if (!process.env.DATABASE) {
 
 const client = knex({
     dialect: 'sqlite3',
+    debug: true,
     connection: {
         filename: path.join(__dirname, process.env.DATABASE)
     }
