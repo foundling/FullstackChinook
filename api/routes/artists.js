@@ -9,9 +9,9 @@ artistsRouter.get('/', function(req, res) {
     const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
     const artists = client('artists')
         .select('Name','ArtistId as id')
+        .distinct('Name')
         .where('Name','like', searchTerm)
         .orderBy('Name','asc')
-        .distinct('Name')
         .stream() 
         .pipe(JSONStream.stringify())
         .pipe(res);

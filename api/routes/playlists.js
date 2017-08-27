@@ -22,10 +22,10 @@ playlistRouter.get('/', (req, res) => {
 
     const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
     const query = client('playlists')
+        .distinct('playlists.PlaylistId')
         .select('Name', 'PlaylistId as id')
         .where('playlists.Name','like', searchTerm) 
-        .orderBy('Name','asc')
-        .distinct('Name')
+        .orderBy('playlists.Name','asc')
         .stream()
         .pipe(JSONStream.stringify())
         .pipe(res);
