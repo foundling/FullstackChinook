@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const client = require(path.join(__dirname, '..','..','db','client'));
+const client = require(path.join(__dirname,'..','..','..','db','client'));
 const artistsRouter = express.Router();
 const JSONStream = require('JSONStream');
 

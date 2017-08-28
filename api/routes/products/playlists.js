@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const playlistRouter = express.Router();
-const client = require(path.join(__dirname, '..','..','db','client'));
+const client = require(path.join(__dirname,'..', '..','..','db','client'));
 const JSONStream = require('JSONStream');
 
 const playlistSelectCriteria = [ 

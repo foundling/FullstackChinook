@@ -1,6 +1,12 @@
 const path = require('path');
-const albums = require(path.join(__dirname,'albums'));
-const artists = require(path.join(__dirname,'artists'));
-const playlists = require(path.join(__dirname,'playlists'));
+const express = require('express');
+const productRouter = express.Router();
 
-module.exports = { albums, artists, playlists };
+const products = require(path.join(__dirname,'products'));
+const customers = require(path.join(__dirname,'customers'));
+//const finances = require(path.join(__dirname,'finances'));
+
+productRouter.use('/products', products);
+//productRouter.use('/customers', customers);
+//productRouter.use('/finances', finances);
+module.exports = productRouter;
