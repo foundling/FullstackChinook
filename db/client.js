@@ -11,7 +11,8 @@ const client = knex({
     debug: true,
     connection: {
         filename: path.join(__dirname, process.env.DATABASE)
-    }
+    },
+    useNullAsDefault: true
 });
 
 module.exports = client;
