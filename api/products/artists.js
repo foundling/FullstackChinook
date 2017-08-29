@@ -1,8 +1,8 @@
 const express = require('express');
-const path = require('path');
-const client = require(path.join(__dirname,'..','..','..','db','client'));
-const artistsRouter = express.Router();
+const artistsRouter = express.Router({ mergeParams: true });
 const JSONStream = require('JSONStream');
+const path = require('path');
+const client = require(path.join(__dirname,'..','..','db','client'));
 
 artistsRouter.get('/', function(req, res) {
 
@@ -18,9 +18,9 @@ artistsRouter.get('/', function(req, res) {
 
 });
 
-artistsRouter.get('/:name', function(req, res) {
+artistsRouter.get('/:artistName', function(req, res) {
 
-    const artistName = req.params.name;
+    const { artistName } = req.params;
     const filterPredicate = artistName ? `%${artistName}%` : '%'; 
     const artists = client('artists')
         .select('Name','ArtistId as id')
@@ -31,4 +31,4 @@ artistsRouter.get('/:name', function(req, res) {
 
 });
 
-module.exports = artistsRouter;
+module.exports = artistsRouter; 

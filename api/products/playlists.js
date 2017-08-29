@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const playlistRouter = express.Router();
-const client = require(path.join(__dirname,'..', '..','..','db','client'));
+const playlistsRouter = express.Router({ mergeParams: true });
+const client = require(path.join(__dirname,'..','..','db','client'));
 const JSONStream = require('JSONStream');
 
 const playlistSelectCriteria = [ 
@@ -13,7 +13,7 @@ const playlistSelectCriteria = [
     'tracks.UnitPrice as price'
 ];
 
-playlistRouter.get('/', (req, res) => {
+playlistsRouter.get('/', function(req, res) {
 
     /* 
      * route: '/playlists'
@@ -32,17 +32,20 @@ playlistRouter.get('/', (req, res) => {
 
 });
 
-playlistRouter.get('/:playlist', (req, res) => {
+playlistsRouter.get('/:playlistName', function(req, res) {
+
+    const { playlistName } = req.params;
 
     const query = client('playlists')
         .join('playlist_track','playlists.PlaylistId','=','playlist_track.PlaylistId')
         .join('tracks','playlist_track.TrackId','=','tracks.TrackId')
         .select(...playlistSelectCriteria)
-        .where('playlists.Name','=',playlist)
-        .orderBy('playlists.Name','tracks.Name','tracks.Composer','asc');
-
-    query.stream().pipe(JSONStream.stringify()).pipe(res);
+        .where('playlists.Name','=',playlistName)
+        .orderBy('playlists.Name','tracks.Name','tracks.Composer','asc')
+        .stream()
+        .pipe(JSONStream.stringify())
+        .pipe(res);
 
 });
 
-module.exports = playlistRouter; 
+module.exports = playlistsRouter; 
