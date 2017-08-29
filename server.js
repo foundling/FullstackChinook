@@ -8,9 +8,12 @@ const api = require(path.join(__dirname, 'api'));
 const { utf8JSON, logger } = require(path.join(__dirname,'lib'));
 const PORT = process.env.PORT || 3000; 
 
+app.use(express.static(path.join(__dirname,'public','build')));
+app.use('/api/docs',express.static(path.join(__dirname,'public','build','docs'))); 
+
 app.use(cors());
-app.use(express.static(path.join(__dirname,'client','build')));
 app.use(utf8JSON);
+app.use(logger);
 app.use('/api', api);
 
 module.exports = {

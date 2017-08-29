@@ -1,0 +1,7 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "title": "Chinook API Documentation", 
+  "description": "Chinook API Documentation", 
+  "url": "http://localhost:3000/api/docs"
+}

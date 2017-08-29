@@ -1,3 +1,14 @@
+/**
+ * @api {get} /products/artists Request Information for All Artists
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+
 const express = require('express');
 const artistsRouter = express.Router({ mergeParams: true });
 const JSONStream = require('JSONStream');
