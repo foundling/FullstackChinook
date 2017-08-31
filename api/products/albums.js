@@ -1,32 +1,37 @@
-const express = require('express');
-const albumsRouter = express.Router({mergeParams: true});
+const albumsRouter = require('koa-router')();
 const path = require('path');
-const client = require(path.join(__dirname,'..','..','db','client'));
+const client = require(path.join(__dirname,'..','client'));
 const JSONStream = require('JSONStream');
 
-albumsRouter.get('/', function(req, res) {
+albumsRouter.get('/', function(ctx, next) {
 
-    const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
-    const albums = client('albums')
+    const searchTerm = ctx.query.search ? `%${ ctx.query.search }%` : '%';
+
+    ctx.response.status = 200; 
+    ctx.response.type = 'application/json; charset=utf-8';
+
+    ctx.body = client('albums')
         .select('Title','AlbumId as id') 
         .where('Title','like', searchTerm)
         .orderBy('Title','asc')
         .distinct('Title')
         .stream()
-        .pipe(JSONStream.stringify())
-        .pipe(res);
+        .pipe(JSONStream.stringify());
 
 });
 
-albumsRouter.get('/:albumName', function(req, res) {
+albumsRouter.get('/:albumName', function(ctx, next) {
 
-    const { albumName } = req.params;
-    const albums = client('albums')
+    const { albumName } = ctx.params;
+
+    ctx.response.request.status = 200; 
+    ctx.response.request.type = 'application/json; charset=utf-8';
+
+    ctx.body = client('albums')
         .select('Title','AlbumTitle as id')
-        .where('Title','like',`%${ albumName }%`)
+        .where('Title','=',`%${ albumName }%`)
         .stream()
-        .pipe(JSONStream.stringify())
-        .pipe(res);
+        .pipe(JSONStream.stringify());
 
 });
 

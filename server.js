@@ -1,31 +1,29 @@
-const express = require('express');
-const cors = require('cors');
+const Koa = require('koa');
+const KoaRouter = require('koa-router');
+const serve = require('koa-static-server');
+const cors = require('kcors');
 const path = require('path');
-const app = express();
 
-const client = require(path.join(__dirname,'db','client'));
-const api = require(path.join(__dirname, 'api'));
-const { utf8JSON, logger } = require(path.join(__dirname,'lib'));
 const PORT = process.env.PORT || 3000; 
-const publicDir = path.join(__dirname,'public','build');
-const docsDir = path.join(__dirname,'public','build','docs');
+const PUBLIC_DIR = path.join(__dirname,'public','build');
+const DOCS_DIR = path.join(__dirname,'public','build','docs');
 
-const startMSg = () => console.log('up and running on Port ', PORT)
+const app = new Koa();
+const api = require(path.join(__dirname, 'api'));
+
+const runMsg = () => {
+    console.log('up and running on Port ', PORT);
+    console.log(api.stack.map(i => i.path).join('\n'));
+};
+const run = () => app.listen(PORT, runMsg)
 
 // middleware
 app.use(cors());
-app.use(utf8JSON);
-app.use(logger);
 
 // routes
-app.use(express.static(publicDir)); // use nginx instead
-app.use('/api/docs',express.static(docsDir)); // use nginx instead 
-app.use('/api', api);
+//app.use(serve({ rootDir: 'static', rootPath:  })
+//app.use(server(path.join(__dirname, DOCS_DIR)))
+app.use(api.routes());
+app.use(api.allowedMethods());
 
-module.exports = {
-    run: function() {
-        app.listen(PORT, () => { 
-            console.log(`Up and running on port ${ PORT }.`); 
-        }); 
-    }
-}
+module.exports = { run };

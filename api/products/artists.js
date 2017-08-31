@@ -1,44 +1,38 @@
-/**
- * @api {get} /products/artists Request Information for All Artists
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id Users unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-
-const express = require('express');
-const artistsRouter = express.Router({ mergeParams: true });
-const JSONStream = require('JSONStream');
+const artistsRouter = require('koa-router')();
 const path = require('path');
-const client = require(path.join(__dirname,'..','..','db','client'));
+const client = require(path.join(__dirname,'..','client'));
+const JSONStream = require('JSONStream');
 
-artistsRouter.get('/', function(req, res) {
+artistsRouter.get('/', function(ctx, next) {
 
-    const searchTerm = req.query.search ? `%${ req.query.search }%` : '%';
-    const artists = client('artists')
+    const { search } = ctx.query;
+    const searchTerm = search ? `%${search}%` : '%';
+
+    ctx.response.status = 200;
+    ctx.response.type = 'application/json; charset=utf-8';
+    ctx.body = client('artists')
         .select('Name','ArtistId as id')
         .distinct('Name')
         .where('Name','like', searchTerm)
         .orderBy('Name','asc')
-        .stream() 
-        .pipe(JSONStream.stringify())
-        .pipe(res);
+        .stream()
+        .pipe(JSONStream.stringify());
 
 });
 
-artistsRouter.get('/:artistName', function(req, res) {
+artistsRouter.get('/:artistName', function(ctx, next) {
 
-    const { artistName } = req.params;
-    const filterPredicate = artistName ? `%${artistName}%` : '%'; 
-    const artists = client('artists')
+    const { artistName } = ctx.params;
+
+    ctx.response.status = 200;
+    ctx.response.type = 'application/json; charset=utf-8';
+    ctx.body = client('artists')
         .select('Name','ArtistId as id')
-        .where('Name','like',filterPredicate)
+        .distinct('Name')
+        .where('Name','=', artistName)
+        .orderBy('Name','asc')
         .stream()
-        .pipe(JSONStream.stringify())
-        .pipe(res);
+        .pipe(JSONStream.stringify());
 
 });
 

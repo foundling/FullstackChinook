@@ -1,7 +1,7 @@
-const express = require('express');
-const usersRouter = express.Router({ mergeParams: true });
+const usersRouter = require('koa-router')();
 const customersRouter = require('./customers');
 
-usersRouter.use('/customers', customersRouter);
+usersRouter.use('/users/customers', customersRouter.routes());
+usersRouter.use('/users/customers', customersRouter.allowedMethods());
 
 module.exports = usersRouter; 

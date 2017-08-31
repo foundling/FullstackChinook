@@ -1,12 +1,15 @@
-const express = require('express');
-const apiRouter = express.Router({ mergeParams: true });
-
+const api = require('koa-router')();
 const productsRouter = require('./products');
 const financialsRouter = require('./financials');
 const usersRouter = require('./users');
 
-apiRouter.use('/products', productsRouter);
-apiRouter.use('/financials', financialsRouter);
-apiRouter.use('/users', usersRouter);
+api.use('/api', productsRouter.routes());
+api.use('/api', productsRouter.allowedMethods());
 
-module.exports = apiRouter; 
+api.use('/api', financialsRouter.routes());
+api.use('/api', financialsRouter.allowedMethods());
+
+api.use('/api', usersRouter.routes());
+api.use('/api', usersRouter.allowedMethods());
+
+module.exports = api; 

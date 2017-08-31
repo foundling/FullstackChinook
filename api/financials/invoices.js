@@ -1,13 +1,15 @@
-const express = require('express');
-const invoicesRouter = express.Router({ mergeParams: true });
+const invoicesRouter = require('koa-router')();
 
-invoicesRouter.get('/', function(req, res) {
-    res.status(200).send('invoices');
+invoicesRouter.get('/', function(ctx, next) {
+    ctx.response.status = 200;
+    ctx.response.type = 'application/json;charset=utf-8';
+    ctx.body = '{}';
 });
 
-invoicesRouter.get('/:invoiceId', function(req, res) {
-    const { invoiceId } = req.params;
-    res.status(200).send(invoiceId);
+invoicesRouter.get('/:invoiceId', function(ctx, next) {
+    ctx.response.status = 200;
+    ctx.response.type = 'application/json;charset=utf-8';
+    ctx.body = '{}';
 });
 
 module.exports = invoicesRouter; 
