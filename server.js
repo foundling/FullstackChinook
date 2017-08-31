@@ -3,12 +3,6 @@ const path = require('path');
 const Koa = require('koa');
 const KoaRouter = require('koa-router');
 const serve = require('koa-static-server');
-
-const staticServer = serve({
-    rootDir: path.join(__dirname,'public','build'),
-    log: true
-});
-
 const PORT = process.env.PORT || 3000; 
 
 const app = new Koa();
@@ -20,6 +14,12 @@ const runMsg = () => {
 };
 
 const run = () => app.listen(PORT, runMsg)
+
+const staticServer = serve({
+    rootDir: path.join(__dirname,'public','build'),
+    log: true
+});
+
 
 // middleware
 app.use(cors());
