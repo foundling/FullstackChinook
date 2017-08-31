@@ -1,12 +1,20 @@
 import axios from 'axios';
 import React from 'react';
 
-import InputFilter from './InputFilter';
 import Menu from './Menu';
 import Header from './Header';
+import InputFilter from './InputFilter';
 import SearchResults from './SearchResults'; 
 
-const baseURL = 'http://localhost:3000';
+import {
+
+    BrowserRouter as Router,
+    Route,
+    Link
+
+} from 'react-router-dom';
+
+const BASE_URL = 'http://localhost:3000';
 
 class App extends React.Component {
 
@@ -31,7 +39,7 @@ class App extends React.Component {
     componentDidMount() {
 
         const resources = ['artists','albums','playlists'];
-        const requests = resources.map(category => axios.get(`${baseURL}/${category}`));
+        const requests = resources.map(category => axios.get(`${BASE_URL}/api/products/${category}`));
 
         Promise.all(requests).then(([artists, albums, playlists]) => {
 
@@ -51,7 +59,7 @@ class App extends React.Component {
     search(searchTerm) {
         const resource = this.state.title.toLowerCase();
         axios
-            .get(`${baseURL}/${resource}?search=${searchTerm}`)
+            .get(`${BASE_URL}/api/products/${resource}?search=${searchTerm}`)
             .then(this.updateResults);
     }
 
