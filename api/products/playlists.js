@@ -1,6 +1,6 @@
 const path = require('path');
 const playlistsRouter = require('koa-router')();
-const client = require(path.join(__dirname,'..','client'));
+const client = require(path.join(__dirname,'..','..','db_client'));
 const JSONStream = require('JSONStream');
 
 const playlistSelectCriteria = [ 

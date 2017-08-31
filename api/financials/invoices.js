@@ -1,4 +1,6 @@
+const path = require('path');
 const invoicesRouter = require('koa-router')();
+const client = require(path.join(__dirname, '..','..','db_client'));
 
 invoicesRouter.get('/', function(ctx, next) {
     ctx.response.status = 200;

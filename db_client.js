@@ -10,7 +10,7 @@ const client = knex({
     dialect: 'sqlite3',
     debug: true,
     connection: {
-        filename: path.join(__dirname, '..','db',process.env.DATABASE)
+        filename: path.join(__dirname,'db',process.env.DATABASE)
     },
     useNullAsDefault: true
 });
