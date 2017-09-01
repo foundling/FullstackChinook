@@ -1,6 +1,6 @@
 const artistsRouter = require('koa-router')();
 const path = require('path');
-const client = require(path.join(__dirname,'..','..','db_client'));
+const client = require(path.join(__dirname,'..','..','db','client'));
 const JSONStream = require('JSONStream');
 
 artistsRouter.get('/', function(ctx, next) {

@@ -1,6 +1,6 @@
 const path = require('path');
 const customersRouter = require('koa-router')();
-const client = require(path.join(__dirname, '..','..','db_client'));
+const client = require(path.join(__dirname, '..','..','db','client'));
 
 customersRouter.get('/', function(ctx, next) {
 

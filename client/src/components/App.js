@@ -14,14 +14,12 @@ import {
 function App() {
     return (
         <Router>
-            <div>
                 <Route exact path="/" component={Landing}></Route>
                 {/*
                 <Route path="/catalogue" component={Catalogue}></Route>
                 <Route path="/player" component={Player}></Route>
                 <Route path="/admin" component={Admin}></Route>
                 */}
-            </div>
         </Router>
     );
 } 
