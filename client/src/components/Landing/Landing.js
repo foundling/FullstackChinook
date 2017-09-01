@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Header from './MenuHeader';
 import LandingContent from './LandingContent';
+import ModalMenu from './ModalMenu';
 
 const Wrapper = styled.section`
     height: 100%;

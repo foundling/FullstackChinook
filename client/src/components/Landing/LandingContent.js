@@ -4,15 +4,9 @@ import styled from 'styled-components';
 const Wrapper = styled.section`
     width: 100%;
     height: 85%;
-    background: aqua;
+    background: whitesmoke;
 `;
 
-function LandingContent(props) {
-
-    return (
-        <Wrapper />
-    );
-
-}
+const LandingContent = (props) => <Wrapper />
 
 export default LandingContent;
