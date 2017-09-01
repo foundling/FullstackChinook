@@ -41,7 +41,7 @@ playlistsRouter.get('/:playlistName', function(ctx, next) {
         .join('playlist_track','playlists.PlaylistId','=','playlist_track.PlaylistId')
         .join('tracks','playlist_track.TrackId','=','tracks.TrackId')
         .select(...playlistSelectCriteria)
-        .where('playlists.Name','=',playlistName)
+        .where('playlists.Name','like',`%${ playlistName }%`)
         .orderBy('playlists.Name','tracks.Name','tracks.Composer','asc')
         .stream()
         .pipe(JSONStream.stringify());

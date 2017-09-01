@@ -24,12 +24,12 @@ albumsRouter.get('/:albumName', function(ctx, next) {
 
     const { albumName } = ctx.params;
 
-    ctx.response.request.status = 200; 
-    ctx.response.request.type = 'application/json; charset=utf-8';
+    ctx.response.status = 200; 
+    ctx.response.type = 'application/json; charset=utf-8';
 
     ctx.body = client('albums')
         .select('Title','AlbumTitle as id')
-        .where('Title','=',`%${ albumName }%`)
+        .where('Title','like',`%${ albumName }%`)
         .stream()
         .pipe(JSONStream.stringify());
 

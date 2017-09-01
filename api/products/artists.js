@@ -29,7 +29,7 @@ artistsRouter.get('/:artistName', function(ctx, next) {
     ctx.body = client('artists')
         .select('Name','ArtistId as id')
         .distinct('Name')
-        .where('Name','=', artistName)
+        .where('Name','like', `%${ artistName }%`)
         .orderBy('Name','asc')
         .stream()
         .pipe(JSONStream.stringify());
